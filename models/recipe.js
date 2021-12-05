@@ -1,8 +1,9 @@
 class Recipe {
-    constructor(name, ingredients, instructions) {
+    constructor(name, ingredientIds, instructions, rawingredients) {
         this.name = name
-        this.ingredients = ingredients
+        this.ingredients = ingredientIds
         this.instructions = instructions
+        this.rawingredients = rawingredients
         return this
     }
 
@@ -18,7 +19,8 @@ class Recipe {
         return {
             name: this.name,
             ingredients: this.ingredients,
-            instructions: this.instructions
+            instructions: this.instructions,
+            rawingredients: this.rawingredients
         }
     }
 }

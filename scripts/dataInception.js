@@ -14,9 +14,10 @@ const db = require("../db")
 async function createIngredientsTable() {
     try {
         await db.schema.withSchema('public').createTable('ingredients', table => {
-         table.increments('id').primary()
-         table.text('name').notNullable() //using text type as string has length = 255
+         table.text('id').primary()
+         table.text('name') //using text type as string has length = 255
          table.string('ingredienttype')   
+         table.unique(['name'], {indexName: 'name_unique'})
         })
         console.log('Created ingredients Table')
     } catch (error) {
@@ -33,6 +34,7 @@ async function createRecipesTable() {
          table.string('name').notNullable()
          table.text('instructions').notNullable() //using text type as string has length = 255
          table.json('ingredients')  //using json type to store array of ingredient ids TODO: while inserting add JSON.stringify to insert the array
+         table.text('rawingredients') //these will be ingredients with units and quantities
         })
         console.log('Created recipes Table')
     } catch (error) {
