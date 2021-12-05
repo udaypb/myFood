@@ -4,7 +4,7 @@ var async = require("async")
 const parser = require('ingredients-parser')
 const Ingredient = require("../models/ingredient.js")
 const Recipe = require("../models/recipe.js")
-
+const {formatIngredientName} = require('../utils/ingredientNameFormatter')
 
 /* Uses knex batchInsert(https://knexjs.org/#Utility-BatchInsert) to insert multiple rows at once
 * @param {array} rows -  rows array with format [{column1: value1, column2: value2}, {column1: value1, column2: value2}....]
@@ -33,13 +33,8 @@ function createIngredientRows(recipes, ) {
             recipe.ingredients.map(function(ingredient) {
                 let parsed = parser.parse(ingredient)
                 let parsedIngredient = parsed.ingredient
-                if (ingredientsDict[parsedIngredient] === undefined && parsedIngredient !== undefined) {
-                    //to exclude special characters from ingredient name
-                    var format = /[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]+/
-                    if (parsedIngredient.split(" ").length < 4 && !format.test(parsedIngredient)) {
-                        let igName = parsedIngredient.toLowerCase().trim().replace(/\s/g, '_')
-                        ingredientsDict[igName] = 1
-                    }
+                if (formatIngredientName(parsedIngredient) !== undefined &&  parsedIngredient !== undefined && ingredientsDict[parsedIngredient] === undefined) {
+                   ingredientsDict[formatIngredientName(parsedIngredient)] = 1
                 }
             })
         }
