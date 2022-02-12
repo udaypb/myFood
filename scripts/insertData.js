@@ -87,5 +87,4 @@ async.series([
     console.log(`Inserted ${rows.recipeRows.length} rows in table recipes`)
 })
 
-// insertRowsInBulk(rows.ingredientRows, "ingredients")
-// insertRowsInBulk(rows.recipeRows, "recipes")
+
